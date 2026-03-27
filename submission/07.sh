@@ -7,7 +7,6 @@ raw_tx="01000000000101c8b0928edebbec5e698d5f86d0474595d9f6a5b2e4e3772cd9d1005f23
 
 utxo_txid=$(bitcoin-cli -regtest decoderawtransaction "$raw_tx" | jq -r '.txid')
 
-sats_to_send=20000000
-btc_to_send=$(awk -v s="$sats_to_send" 'BEGIN {printf "%.8f", s/100000000}')
+btc_to_send=$((20000000 / 100000000))
 
 bitcoin-cli -regtest createrawtransaction "[{\"txid\":\"$utxo_txid\",\"vout\":0},{\"txid\":\"$utxo_txid\",\"vout\":1}]" "{\"$recipient_address\":$btc_to_send}"
